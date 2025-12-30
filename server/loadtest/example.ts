@@ -1,4 +1,4 @@
-import { Client, Room } from "colyseus.js";
+/*import { Client, Room } from "colyseus.js";
 import { cli, Options } from "@colyseus/loadtest";
 
 export async function main(options: Options) {
@@ -22,4 +22,4 @@ export async function main(options: Options) {
     });
 }
 
-cli(main);
+cli(main);*/

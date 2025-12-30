@@ -22,6 +22,6 @@ export default defineConfig({
       '.trycloudflare.com',
       '.ngrok-free.dev',
       '.ngrok-free.app',
-    ],
+    ]
   },
 });
