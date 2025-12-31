@@ -14,7 +14,7 @@ let lobbyTrack: AudioPlay;
 
 export function createLobbyScene() {
   k.scene("lobby", async (room: Room<MyRoomState>) => {
-    lobbyTrack = k.play("lobby_track", { loop: true, volume: 0.5 });
+    lobbyTrack = k.play("lobby_track", { loop: true, volume: 0.3 });
 
     displayLobbyBackground();
 
@@ -49,7 +49,7 @@ async function rehydrateSelectors(room: Room<MyRoomState>) {
 function displayLobbyBackground() {
   k.onDraw(() => {
     k.drawSprite({
-      sprite: "blue_bg"
+      sprite: "lobby_bg"
     });
   });
 }
@@ -291,7 +291,7 @@ function createCountDisplay(room: Room<MyRoomState>) {
     k.circle(50),
     k.pos(k.vec2(x, y)),
     k.color(k.rgb(35, 35, 35)),
-    k.outline(2, k.rgb(205, 150, 30)),
+    k.outline(7, k.rgb(9, 6, 129)),
     k.z(10010)
   ])
 
@@ -299,16 +299,9 @@ function createCountDisplay(room: Room<MyRoomState>) {
     let readyCount = [...players.values()].filter(p => p.userState === UserState.Ready).length;
     let playerCount = players.size;
 
-    k.drawCircle({
-      radius: 50,
-      pos: k.vec2(x, y),
-      color: k.rgb(39, 35, 35),
-      outline: { width: 2, color: k.rgb(204, 149, 30) }
-    });
-
     k.drawRect({
       width: 1,
-      height: 70,
+      height: 100,
       angle: 45,
       pos: k.vec2(0, 0),
       color: k.rgb(39, 35, 35),

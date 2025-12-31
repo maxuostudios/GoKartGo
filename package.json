@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "colyseus.js": "^0.16.22",
+    "kaplay": "^4000.0.0-alpha.17",
+    "uuid": "^13.0.0"
+  }
+}

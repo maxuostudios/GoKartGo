@@ -25,13 +25,14 @@ export const k = kaplay({
 
 k.loadSprite("maxuostudios", "assets/maxuostudios.png");
 k.loadSprite("bevinna_logo", "assets/bevinna_logo.png");
-k.loadSprite("bevinna_bg", "assets/bevinna_bg.png");
+k.loadSprite("bevinna_bg", "assets/bevinna_bg.jpg");
+k.loadSprite("lobby_bg", "assets/lobby_bg.jpg");
 k.loadSprite("blue_bg", "assets/blue_bg.jpg");
 
 k.loadSprite("copy", "assets/copy.png");
 k.loadSprite("paste", "assets/paste.png");
 
-k.loadSprite("pointer", "assets/pointers.png", { sliceX: 9 });
+k.loadSprite("pointer", "assets/pointers.png", { sliceX: 5 });
 k.loadSprite("avatar", "assets/updated_draft_lineup.png", { sliceX: characterCount });
 k.loadSprite("head", "assets/heads_for_jam.png", { sliceX: characterCount });
 k.loadSprite("bg_tile", "assets/bg_tile.png", { sliceX: 3 });
@@ -56,6 +57,7 @@ k.loadSprite("flag", "assets/flag.png");
 k.loadSound("start_music", "sounds/start_music.mp3");
 k.loadSound("lobby_track", "sounds/lobby_track.mp3");
 k.loadSound("game_track", "sounds/game_track.mp3");
+k.loadSound("endscreen_track", "sounds/endscreen_track.mp3");
 
 k.loadSound("race_intro", "sounds/race_intro.mp3");
 k.loadSound("countdown", "sounds/countdown.mp3");

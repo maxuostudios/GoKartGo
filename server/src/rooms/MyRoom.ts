@@ -3,7 +3,14 @@ import { v4 as uuidv4 } from "uuid";
 import { MyRoomState, Player, PlayerData, Spawnable, TrackPiece } from "./schema/MyRoomState";
 import { CELL_COUNT, CELL_SIZE, GAME_HEIGHT, GAME_WIDTH, ItemType, lapPos, MAX_PLAYERS, ObjType, p, PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH, PLAYGROUND_X, PLAYGROUND_Y, UserState } from "../../../globals";
 import { getColor, prob, randomInt, randomItem } from "../../../utils";
-import { characterCount } from "../../../globals";
+
+const itemWeights = [
+    10,  // Boost
+    40,  // Bullet
+    25,  // HomingBullet
+    20,  // Plant
+    5,   // Shield
+]
 
 export class MyRoom extends Room {
   maxClients = MAX_PLAYERS;
@@ -38,6 +45,12 @@ export class MyRoom extends Room {
       if (!player) return;
       player.x = message.pos.x;
       player.y = message.pos.y;
+
+      const EPS = 20;
+
+      if (lapPos.slice(1, -1).some(l => Math.abs(l - player.x) <= EPS)) {
+        client.send("checkpointReached");
+      }
 
       if (player.x >= lapPos[lapPos.length - 1] + CELL_SIZE) {
         player.userState = UserState.Finished;
@@ -111,10 +124,10 @@ export class MyRoom extends Room {
       const player = this.state.players.get(client.sessionId);
       if (!player) return;
 
-      let itemToAdd = randomItem(Object.values(ItemType));
+      let itemToAdd = Object.values(ItemType)[prob(itemWeights)];
 
       while (player.itemOne === itemToAdd || player.itemTwo === itemToAdd) {
-        itemToAdd = randomItem(Object.values(ItemType));
+        itemToAdd = Object.values(ItemType)[prob(itemWeights)];
       }
 
       if (!player.itemOne) player.itemOne = itemToAdd;
@@ -226,11 +239,6 @@ export class MyRoom extends Room {
     player.name = options.name.length > 0 ? options.name : `Guest${client.sessionId.slice(0, 3)}`;
     player.sessionId = client.sessionId;
 
-
-    // temp
-    player.itemOne = "homing_bullet";
-    player.itemTwo = "shield"
-
     this.state.players.set(client.sessionId, player);
 
     const remainingPlayers = Array.from(this.state.players.values());
@@ -244,7 +252,6 @@ export class MyRoom extends Room {
   }
 
   onLeave(client: Client, consented: boolean) {
-    console.log(consented);
     this.state.players.delete(client.sessionId);
 
     const remainingPlayers = Array.from(this.state.players.values());
@@ -252,6 +259,8 @@ export class MyRoom extends Room {
     remainingPlayers.forEach((player, i) => {
       player.playerNumber = i;
     });
+
+    console.log(this.state.players.size)
   }
 
   onDispose() {
@@ -275,8 +284,6 @@ export class MyRoom extends Room {
       p.y = this.setStartPos(p.playerNumber);
       this.state.playingPlayers.push(p.sessionId);
     });
-    
-    this.resetPlayers();
 
     // enter players into scene select
     this.broadcast("sceneSelectEnter");
