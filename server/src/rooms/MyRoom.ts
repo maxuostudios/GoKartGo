@@ -281,6 +281,7 @@ export class MyRoom extends Room {
     // set as playing
     this.state.players.forEach((p) => {
       p.userState = UserState.Playing;
+      p.x = -140;
       p.y = this.setStartPos(p.playerNumber);
       this.state.playingPlayers.push(p.sessionId);
     });
@@ -333,12 +334,12 @@ export class MyRoom extends Room {
     const startX = 2;
 
     const weights = {
-      wallArea: 5,
-      itemBoxes: 4,
-      boostPads: 1
+      wallArea: 60,
+      itemBoxes: 25,
+      boostPads: 15
     }
 
-    for (let i = 0; i < CELL_COUNT; i += 10) {
+    for (let i = 0; i < CELL_COUNT; i += 5) {
       if (i < startX) continue;
 
       const col = i;

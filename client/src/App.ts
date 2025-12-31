@@ -102,8 +102,8 @@ export function displayHomeLogo() {
 async function main() {
   await k.loadBitmapFont("happy-o", "./assets/happy-o.png", 31, 39);
 
-  k.go("home");
-  //k.go("splash");  
+  //k.go("home");
+  k.go("splash");  
 }
 
 main();
