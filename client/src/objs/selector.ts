@@ -13,43 +13,23 @@ export default (room: Room<MyRoomState>, player: Player) => ([
     k.z(player.selectorY + 1000),
     "selector",
     {
-        // Define a bunch of useful properties
         sessionId: player.sessionId,
         startPos: k.vec2(player.selectorX, player.selectorY),
-        moveLerp: 12, // for position interpolation
-        overshootLerp: 30, // for fast movement interpolation
-        controllable: true, // e.g. disable when resetting player on goal
+        moveLerp: 12,
+        overshootLerp: 30,
+        controllable: true,
 
         hoveredCell: null as GameObj,
         hasSelected: false,
 
         add(this: GameObj) {
-            // Scale player in with nice transition once added
             k.tween(this.scale, k.vec2(1.2), 0.25, v => this.scale = v, k.easings.easeOutBack);
 
             if (player.sessionId == room.sessionId) this.onLocalSelectorCreated(room, player, this);
-
-            // why?
-            /*room.onMessage("playerLeft", () => {
-                console.log("ksks", player.playerNumber);
-                this.frame = player.playerNumber;
-            })*/
         },
 
         update(this: GameObj) {
             this.frame = player.playerNumber;
-            
-            /*if (player.userState === UserState.Playing
-                || player.userState === UserState.Finished
-            ) {
-                this.hidden = true;
-                this.controllable = false;
-                return;
-            }
-            else {
-                this.hidden = false;
-                this.controllable = true;
-            }*/
 
             this.pos.x = k.lerp(
                 this.pos.x,
@@ -68,7 +48,6 @@ export default (room: Room<MyRoomState>, player: Player) => ([
 
             let pos = selectorObj.startPos;
 
-            // Movement speed per second
             const speed = 850;
 
             selectorObj.onKeyPress("enter", () => { this.selectOrDeselect() });
@@ -127,10 +106,6 @@ export default (room: Room<MyRoomState>, player: Player) => ([
         },
 
         selectOrDeselect() {
-            /*if (player.userState !== UserState.Unready &&
-                player.userState !== UserState.Ready
-            ) return;*/
-
             if (this.hoveredCell) {
                 if (this.hoveredCell.playerIndex > -1) {
                     this.deselectCell();

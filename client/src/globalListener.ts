@@ -34,7 +34,7 @@ export function setListeners(room: Room<MyRoomState>) {
         }
 
         if (k.getSceneName() === "lobby") {
-            await createSelector(room, player);
+            sessionVisuals[sessionId].selector = await createSelector(room, player);
         }
 
         k.get("cell").forEach(cell => cell.updateCellData());
@@ -57,7 +57,6 @@ export function setListeners(room: Room<MyRoomState>) {
 
         Object.values(sessionVisuals).forEach((ses, i) => {
             if (ses?.selector?.hoveredCell) {
-                //ses.selector.frame = i;
                 ses.selector.deselectCell();
             }
         });

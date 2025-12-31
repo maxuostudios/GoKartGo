@@ -42,7 +42,6 @@ async function rehydrateSelectors(room: Room<MyRoomState>) {
     if (!player) continue;
 
     sv.selector = await createSelector(room, player);
-
   }
 }
 
@@ -89,6 +88,11 @@ function createLeaveButton(room: Room<MyRoomState>) {
     originalBgColor: leaveBtnColor,
     hoverBgColor: k.rgb(12, 28, 99)
   });
+
+  /*leaveBtn.onClick(() => {
+    room.leave();
+    k.go("home");
+  });*/
 }
 
 function createCharacterGrid(room: Room<MyRoomState>) {

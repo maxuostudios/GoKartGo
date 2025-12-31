@@ -27,10 +27,7 @@ export class MyRoom extends Room {
         }
         return result;
     }
- 
-    // 1. Get room IDs already registered with the Presence API.
-    // 2. Generate room IDs until you generate one that is not already used.
-    // 3. Register the new room ID with the Presence API.
+    
     async generateRoomId(): Promise<string> {
         const currentIds = await this.presence.smembers(this.LOBBY_CHANNEL);
         let id;
@@ -233,7 +230,11 @@ export class MyRoom extends Room {
     });
 
     this.onMessage("returnedToLobby", (client) => {
-      this.state.players.get(client.sessionId).userState = UserState.Unready;
+      const player = this.state.players.get(client.sessionId);
+      if (!player) return;
+
+      player.userState = UserState.Unready;
+      player.selectedCell = -1;
 
       if (this.state.players.values().every(p => p.userState === UserState.Ready || p.userState === UserState.Unready)) {
         this.resetPlayers();
@@ -261,8 +262,6 @@ export class MyRoom extends Room {
   }
 
   onJoin(client: Client, options: any) {
-    console.log(client.sessionId, "joined!");
-
     const player = new Player();
     player.name = options.name.length > 0 ? options.name : `Guest${client.sessionId.slice(0, 3)}`;
     player.sessionId = client.sessionId;
@@ -287,8 +286,6 @@ export class MyRoom extends Room {
     remainingPlayers.forEach((player, i) => {
       player.playerNumber = i;
     });
-
-    console.log(this.state.players.size)
   }
 
   async onDispose() {
@@ -422,7 +419,6 @@ export class MyRoom extends Room {
       p.currentLap = 0;
       p.ranking = 1;
       p.finishTime = 0;
-      p.selectedCell = -1;
     });
   }
 

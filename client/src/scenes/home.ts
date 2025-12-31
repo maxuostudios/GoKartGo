@@ -212,11 +212,11 @@ export function createHomeScene() {
             try {
                 const textToPaste = (await navigator.clipboard.readText()).trim();
 
-                if (textToPaste.length > 9) {
+                if (textToPaste.length > 4) {
                     errorDisplay("Too many characters to paste!");
                     return;
                 };
-                if (textToPaste.length < 9) {
+                if (textToPaste.length < 4) {
                     errorDisplay("Too few characters to paste!");
                     return;
                 };
@@ -317,7 +317,7 @@ export function createHomeScene() {
         });
 
         joinBtn.onClick(async () => {
-            if (codeInput.text.length === 9) {
+            if (codeInput.text.length === 4) {
                 try {
                     const room = await colyseusSDK.joinById<MyRoomState>(codeInput.text, {
                         name: nameInput.text
@@ -333,7 +333,7 @@ export function createHomeScene() {
                 }
             }
             else {
-                errorDisplay("Must enter a 9-character code to join");
+                errorDisplay("Must enter a 4-character code to join");
             }
         });
 
